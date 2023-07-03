@@ -1,0 +1,21 @@
+# eclipse-temurin:8 specifies openjdk version 8
+FROM eclipse-temurin:8
+
+WORKDIR /app
+
+# Source code
+COPY src ./src
+
+# Maven
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN chmod +x mvnw
+
+# Run maven TEST
+RUN ./mvnw test
+
+## Maven create .JAR 
+RUN ./mvnw package
+
+# RUN Image
+CMD ["java", "-jar", "target/accenture-techhub-0.0.1-SNAPSHOT.war"]
